@@ -67,7 +67,7 @@ const changeCheckpadStatus = async (id) => {
 
     const dateUTC = new Date(Date.now());
 
-    const [status] = await connection.execute(`SELECT status FROM checkpads WHERE id = ${id}`);
+    const [ status ] = await connection.execute(`SELECT status FROM checkpads WHERE id = ${id}`);
 
     const query = 'UPDATE checkpads SET status = ?, updatedAt = ? WHERE id = ?';
 
@@ -80,8 +80,6 @@ const changeCheckpadStatus = async (id) => {
         let message = 'Status alterado para Disponível';
         return message;
     }
-
-
 };
 
 module.exports = {

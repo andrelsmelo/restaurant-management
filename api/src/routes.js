@@ -23,7 +23,7 @@ router.delete('/checkpad/:id', checkpadController.remove);
 router.get('/client-checkpad', clientCheckpadController.findAll);
 router.get('/client-checkpad/:id', clientCheckpadController.findOrFail);
 router.post('/client-checkpad', clientCheckpadController.store);
-router.post('/client-checkpad/:id/new-item', clientCheckpadController.attTotalPrice);
+router.put('/client-checkpad/:id/new-item', clientCheckpadController.attTotalPrice);
 router.put('/client-checkpad/:id/close', clientCheckpadController.closeCheckpad);
 router.put('/client-checkpad/:id', clientCheckpadController.update);
 router.delete('/client-checkpad/:id', clientCheckpadController.remove);

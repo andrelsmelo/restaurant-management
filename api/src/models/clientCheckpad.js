@@ -89,6 +89,20 @@ const isClosed = async (id) => {
     return false;
 };
 
+const getClient = async (id) => {
+    
+    const [client] = await connection.execute(`SELECT client_id FROM client_checkpad WHERE id = ${id} and status != 'Fechada'`);
+    
+    return client;
+};
+
+const getCheckpad = async (id) => {
+    
+    const [checkpad] = await connection.execute(`SELECT checkpad_id FROM client_checkpad WHERE id = ${id} and status != 'Fechada'`);
+    
+    return checkpad;
+};
+
 module.exports = {
     findAll,
     findOrFail,
@@ -97,5 +111,7 @@ module.exports = {
     remove,
     attTotalPrice,
     closeCheckpad,
-    isClosed
+    isClosed,
+    getClient,
+    getCheckpad
 };

@@ -19,13 +19,13 @@ const findOrFail = async (id) => {
 
 const store = async (client) => {
 
-    const { date, total_price, consumed_items, quantity, client_id} = client;
+    const { date, total_price, consumed_items, quantity, client_id, client_checkpad_id } = client;
 
     const dateUTC = new Date(Date.now());
 
-    const query = 'INSERT INTO client_history (date, total_price, consumed_items, quantity, client_id, createdAt, updatedAt) VALUES ( ?,?,?,?,?,?,? )';
+    const query = 'INSERT INTO client_history (date, total_price, consumed_items, quantity, client_id, client_checkpad_id, createdAt, updatedAt) VALUES ( ?,?,?,?,?,?,?,? )';
 
-    const [createdClientHistory] = await connection.execute(query, [ date, total_price, consumed_items, quantity, client_id, dateUTC, dateUTC]);
+    const [createdClientHistory] = await connection.execute(query, [ date, total_price, consumed_items, quantity, client_id, client_checkpad_id, dateUTC, dateUTC]);
 
     return { insertId: createdClientHistory.insertId};
 
@@ -33,7 +33,7 @@ const store = async (client) => {
 
 const update = async (id, client) => {
 
-    const { date, total_price, consumed_items,quantity, client_id } = client;
+    const { date, total_price, consumed_items, quantity, client_id } = client;
 
     const dateUTC = new Date(Date.now());
 
@@ -53,16 +53,17 @@ const remove = async (id) => {
     return deletedClientHistory;
 };
 
-const sendToHistory = async(item, clientId, quantity) => {
+const sendToHistory = async(item, quantity, client_id, client_checkpad_id) => {
 
     const dateUTC = new Date(Date.now());
 
     const client = {
-        date: dateUTC,
-        total_price: item.price,
-        consumed_items: item.name,
-        quantity: quantity,
-        client_id: clientId
+        "date": dateUTC,
+        "total_price": item.price,
+        "consumed_items": item.name,
+        "quantity": quantity,
+        "client_id": Number(client_id),
+        "client_checkpad_id": Number(client_checkpad_id)
     };
 
     store(client);

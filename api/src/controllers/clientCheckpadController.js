@@ -14,7 +14,7 @@ const findAll = async (req, res) => {
 
 const findOrFail = async (req, res) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     const clientCheckpad = await clientCheckpadModel.findOrFail(id);
 
@@ -35,18 +35,16 @@ const store = async (req, res) => {
 
         const isCheckpadAvailable = await checkpadModel.isAvailable(checkpad_id);
 
-        if(!isCheckpadAvailable) {
+        if (!isCheckpadAvailable) {
             return res.status(400).json({ message: 'Comanda indisponivel' });
         }
 
         const createdClientCheckpad = await clientCheckpadModel.store(client_id, checkpad_id);
 
-        const checkpadStatus = await checkpadModel.changeCheckpadStatus(checkpad_id);
-        console.log(checkpadStatus);
+        await checkpadModel.changeCheckpadStatus(checkpad_id);
 
         return res.status(200).json(createdClientCheckpad);
     } catch (e) {
-        console.log(e);
         return res.status(400).json({ message: 'Não foi possivel registrar a comanda!' });
     }
 };
@@ -78,8 +76,6 @@ const attTotalPrice = async (req, res) => {
     const { consumed_item, quantity } = req.body;
 
     const clientCheckpad = await clientCheckpadModel.isClosed(id);
-    
-    console.log(clientCheckpad);
 
     if (clientCheckpad) {
         return res.status(404).json('Essa comanda já fechou');
@@ -87,13 +83,15 @@ const attTotalPrice = async (req, res) => {
 
     const item = await menuModel.findOrFail(consumed_item);
 
-    if(item.length === 0){
+    if (item.length === 0) {
         return res.status(400).json('Item inválido');
     }
 
     await clientCheckpadModel.attTotalPrice(id, item[0], quantity);
 
-    await clientHistoryModel.sendToHistory(item[0], id, quantity);
+    const client = await clientCheckpadModel.getClient(id);
+
+    await clientHistoryModel.sendToHistory(item[0], quantity, client[0].client_id, id);
 
     return res.status(200).json('Item adicionado corretamente');
 };
@@ -101,6 +99,14 @@ const attTotalPrice = async (req, res) => {
 const closeCheckpad = async (req, res) => {
 
     const { id } = req.params;
+
+    const checkpad = await clientCheckpadModel.getCheckpad(id);
+
+    if (checkpad.length === 0) {
+        return res.status(404).json('Essa comanda não existe');
+    }
+
+    await checkpadModel.changeCheckpadStatus(checkpad[0].checkpad_id);
 
     await clientCheckpadModel.closeCheckpad(id);
 
