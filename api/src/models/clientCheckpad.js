@@ -12,7 +12,9 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const [clientCheckpad] = await connection.execute(`SELECT * FROM client_checkpad WHERE id = ${id} and status != 'Fechada'`);
+    const query = 'SELECT * FROM client_checkpad WHERE id = ? and status != "Fechada"';
+
+    const [clientCheckpad] = await connection.execute(query, [id]);
 
     return clientCheckpad;
 };
@@ -57,7 +59,9 @@ const attTotalPrice = async (id, item, quantity) => {
 
     if(!quantity) quantity = 1;
 
-    const [clientCheckpad] = await connection.execute(`SELECT * FROM client_checkpad WHERE id = ${id} and status = 'Aberta'`);
+    const clientCheckpadQuery = 'SELECT * FROM client_checkpad WHERE id = ? and status = "Aberta"';
+
+    const [clientCheckpad] = await connection.execute(clientCheckpadQuery, [id]);
 
     const newTotalPrice = Number(clientCheckpad[0].total_price) + (Number(item.price) * quantity);
 
@@ -80,8 +84,10 @@ const closeCheckpad = async (id) => {
 };
 
 const isClosed = async (id) => {
-    
-    const [clientCheckpad] = await connection.execute(`SELECT * FROM client_checkpad WHERE id = ${id} and status != 'Fechada'`);
+
+    const query = 'SELECT * FROM client_checkpad WHERE id = ? and status != "Fechada"';
+
+    const [clientCheckpad] = await connection.execute(query, [id]);
     
     if(clientCheckpad.length === 0){
         return true;
@@ -90,15 +96,19 @@ const isClosed = async (id) => {
 };
 
 const getClient = async (id) => {
-    
-    const [client] = await connection.execute(`SELECT client_id FROM client_checkpad WHERE id = ${id} and status != 'Fechada'`);
+
+    const query = 'SELECT client_id FROM client_checkpad WHERE id = ? and status != "Fechada"';
+
+    const [client] = await connection.execute(query, [id]);
     
     return client;
 };
 
 const getCheckpad = async (id) => {
-    
-    const [checkpad] = await connection.execute(`SELECT checkpad_id FROM client_checkpad WHERE id = ${id} and status != 'Fechada'`);
+
+    const query = 'SELECT checkpad_id FROM client_checkpad WHERE id = ? and status != "Fechada"';
+
+    const [checkpad] = await connection.execute(query, [id]);
     
     return checkpad;
 };

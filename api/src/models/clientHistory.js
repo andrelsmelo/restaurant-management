@@ -5,16 +5,18 @@ const findAll = async () => {
 
     const query = 'SELECT * FROM client_history';
 
-    const [client_history] = await connection.execute(query);
+    const [clientHistory] = await connection.execute(query);
 
-    return client_history;
+    return clientHistory;
 };
 
 const findOrFail = async (id) => {
 
-    const [client_history] = await connection.execute(`SELECT * FROM client_history WHERE id = ${id}`);
+    const query = 'SELECT * FROM client_history WHERE id = ?';
 
-    return client_history;
+    const [clientHistory] = await connection.execute(query, [id]);
+
+    return clientHistory;
 };
 
 const store = async (client) => {

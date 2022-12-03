@@ -14,6 +14,11 @@ const foodCategoryMiddleware = require('./middlewares/foodCategoryMiddleware');
 
 const router = express.Router();
 
+router.get('/is-alive', (req,res) => {
+    res.status(200).json({message: 'Backend is alive'});
+    console.log('Bateu aqui');
+});
+
 router.get('/checkpad', checkpadController.findAll);
 router.get('/checkpad/:id', checkpadController.findOrFail);
 router.post('/checkpad', checkpadMiddleware.validateBody, checkpadController.store);

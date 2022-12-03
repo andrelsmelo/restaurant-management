@@ -12,7 +12,9 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const [checkpad] = await connection.execute(`SELECT * FROM checkpads WHERE id = ${id}`);
+    const query = 'SELECT * FROM checkpads WHERE id = ?';
+
+    const [checkpad] = await connection.execute(query, [id]);
 
     return checkpad;
 };
@@ -55,7 +57,9 @@ const remove = async (id) => {
 
 const isAvailable = async (id) => {
 
-    const [checkpad] = await connection.execute(`SELECT * FROM checkpads WHERE id = ${id} and status = "Disponível"`);
+    const query = 'SELECT * FROM checkpads WHERE id = ? and status = "Disponível"';
+
+    const [checkpad] = await connection.execute(query, [id]);
 
     if (checkpad.length === 0) {
         return false;
@@ -67,7 +71,9 @@ const changeCheckpadStatus = async (id) => {
 
     const dateUTC = new Date(Date.now());
 
-    const [ status ] = await connection.execute(`SELECT status FROM checkpads WHERE id = ${id}`);
+    const statusQuery = 'SELECT status FROM checkpads WHERE id = ?';
+
+    const [status] = await connection.execute(statusQuery, [id]);
 
     const query = 'UPDATE checkpads SET status = ?, updatedAt = ? WHERE id = ?';
 

@@ -12,7 +12,9 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const [client] = await connection.execute(`SELECT * FROM clients WHERE id = ${id}`);
+    const query = 'SELECT * FROM clients WHERE id = ?';
+
+    const [client] = await connection.execute(query, [id]);
 
     return client;
 };
