@@ -7,6 +7,7 @@ import ClientHistory from './pages/ClientHistory';
 import Login from './pages/Login';
 import Menu from './pages/Menu';
 import Client from './pages/Client';
+import ClientCheckpad from './pages/ClientCheckpad'
 
 
 export default function Routes() {
@@ -18,6 +19,7 @@ export default function Routes() {
             <Route path="/login" component={Login} />
             <Route path="/menu" component={Menu} />
             <Route path="/client" component={Client} />
+            <Route path="/client-checkpad" component={ClientCheckpad} />
 {/*             <Route path="/post/:id" component={Post} /> */}
             <Redirect from='*' to='/' />
         </Switch>

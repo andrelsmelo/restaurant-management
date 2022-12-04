@@ -9,10 +9,10 @@ export default function Footer() {
                                 <input type="radio" id="category-products" name="category-footer" />
                                 <label htmlFor="category-products" className="title-category">Redes Sociais e Contatos</label>
                                 <ul className="products-footer">
-                                    <li><a href="/produtos?ura">Linkedin</a></li>
-                                    <li><a href="/produtos?bot-voz">Github</a></li>
-                                    <li><a href="/produtos?portais">Instagram</a></li>
-                                    <li><a href="/produtos?bot-texto">Whatsapp</a></li>
+                                    <li key="555"><a href="/produtos?ura">Linkedin</a></li>
+                                    <li key="333"><a href="/produtos?bot-voz">Github</a></li>
+                                    <li key="111"><a href="/produtos?portais">Instagram</a></li>
+                                    <li key="666"><a href="/produtos?bot-texto">Whatsapp</a></li>
                                 </ul>
                             </div>
                         </div>
