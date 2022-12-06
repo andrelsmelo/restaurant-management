@@ -95,42 +95,44 @@ function ClientCheckpad() {
     return (
         <main>
             <div className="container">
-                <div className="row d-flex justify-content-center text-center">
-                    <div className='col-6 fs-3' >Clientes com comanda aberta</div>
+                <div className="row d-flex justify-content-center text-center my-5">
+                    <div className='col-6 fs-3' >Clientes com comandas abertas</div>
                     <div className='col-3 fs-3'>
-                        <button type="button" className="btn btn-info p-2 m-2" onClick={openModal}>Registrar comanda</button>
+                        <button type="button" className="btn btn-secondary p-2 m-2" onClick={openModal}>Registrar nova comanda</button>
                     </div>
-                    
+
                 </div>
-                <div className="row d-flex bg-dark justify-content-center text-center">
-                    <div className="table-responsive">
-                        <table className="table table-dark table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Itens Consumidos</th>
-                                    <th>Preço</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {clientCheckpads &&
-                                    clientCheckpads.map((clientCheckpad) =>
-                                        <tr>
-                                            <th>{clientCheckpad.client_id}</th>
-                                            <td>{clientCheckpad.consumed_items == null ? 'Nada Consumido' : clientCheckpad.consumed_items}</td>
-                                            <td>{clientCheckpad.total_price}</td>
-                                            <td>{clientCheckpad.status}</td>
-                                            <td>
-                                                <button type="button" className="btn btn-danger col-3" onClick={() => closeClientCheckpad(clientCheckpad.id)}>Fechar Comanda
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )}
-                            </tbody>
-                        </table>
-                    </div>
+                <div className="row">
+                    <table className="table table-striped text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Id do Cliente</th>
+                                <th>Id da Comanda</th>
+                                <th>Itens Consumidos</th>
+                                <th>Preço</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {clientCheckpads &&
+                                clientCheckpads.map((clientCheckpad) =>
+                                    <tr>
+                                        <th scope="row">{clientCheckpad.id}</th>
+                                        <th>{clientCheckpad.checkpad_id}</th>
+                                        <th>{clientCheckpad.client_id}</th>
+                                        <td>{clientCheckpad.consumed_items == null ? 'Nada Consumido' : clientCheckpad.consumed_items}</td>
+                                        <td>{clientCheckpad.total_price}</td>
+                                        <td>{clientCheckpad.status}</td>
+                                        <td>
+                                            <button type="button" className="btn btn-danger" onClick={() => closeClientCheckpad(clientCheckpad.id)}>Fechar Comanda
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )}
+                        </tbody>
+                    </table>
                 </div>
                 <div className="modal-container">
                     <Modal

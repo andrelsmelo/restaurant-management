@@ -60,5 +60,6 @@ router.get('/menu/:id', menuController.findOrFail);
 router.post('/menu', menuController.store);
 router.put('/menu/:id', menuController.update);
 router.delete('/menu/:id', menuController.remove);
+router.get('/menu-filtered/:id', menuController.filter);
 
 module.exports = router;

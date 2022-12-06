@@ -55,10 +55,21 @@ const remove = async (id) => {
     return deletedMenu;
 };
 
+const filter = async(food_category_id) => {
+
+    const query = 'SELECT * FROM menu WHERE food_category_id = ?';
+
+    const [menu] = await connection.execute(query, [food_category_id]);
+
+    return menu;
+
+};
+
 module.exports = {
     findAll,
     findOrFail,
     store,
     update,
-    remove
+    remove,
+    filter
 };
