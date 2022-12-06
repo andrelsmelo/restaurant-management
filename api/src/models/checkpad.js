@@ -88,6 +88,24 @@ const changeCheckpadStatus = async (id) => {
     }
 };
 
+const changeAllStatusAvailable = async () => {
+
+    const dateUTC = new Date(Date.now());
+
+    const query = 'UPDATE checkpads SET status = ?, updatedAt = ?';
+
+    await connection.execute(query, ['Disponível', dateUTC]);
+};
+
+const changeAllStatusUnavailable = async () => {
+
+    const dateUTC = new Date(Date.now());
+
+    const query = 'UPDATE checkpads SET status = ?, updatedAt = ?';
+
+    await connection.execute(query, ['Indisponível', dateUTC]);
+};
+
 module.exports = {
     findAll,
     findOrFail,
@@ -95,5 +113,7 @@ module.exports = {
     update,
     remove,
     isAvailable,
-    changeCheckpadStatus
+    changeCheckpadStatus,
+    changeAllStatusAvailable,
+    changeAllStatusUnavailable
 };

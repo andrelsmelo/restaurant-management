@@ -22,8 +22,12 @@ router.get('/is-alive', (req,res) => {
 router.get('/checkpad', checkpadController.findAll);
 router.get('/checkpad/:id', checkpadController.findOrFail);
 router.post('/checkpad', checkpadMiddleware.validateBody, checkpadController.store);
+router.put('/checkpad/change-all-status-available', checkpadController.changeAllStatusAvailable);
+router.put('/checkpad/change-all-status-unavailable', checkpadController.changeAllStatusUnavailable);
 router.put('/checkpad/:id', checkpadMiddleware.validateBody, checkpadController.update);
 router.delete('/checkpad/:id', checkpadController.remove);
+router.put('/checkpad/:id/change-status', checkpadController.changeCheckpadStatus);
+
 
 router.get('/client-checkpad', clientCheckpadController.findAll);
 router.get('/client-checkpad/:id', clientCheckpadController.findOrFail);

@@ -51,10 +51,32 @@ const remove = async (req, res) => {
     return res.status(204).json();
 };
 
+const changeCheckpadStatus = async (req, res) => {
+
+    const { id } = req.params;
+
+    await checkpadModel.changeCheckpadStatus(id);
+
+    return res.status(200).json({message: 'Status da comanda alterada'});
+};
+
+const changeAllStatusAvailable = async (req,res) => {
+    await checkpadModel.changeAllStatusAvailable();
+    return res.status(200).json({message: 'Todas comandas foram alteradas para Disponível'});
+};
+
+const changeAllStatusUnavailable = async (req,res) => {
+    await checkpadModel.changeAllStatusUnavailable();
+    return res.status(200).json({message: 'Todas comandas foram alteradas para Indisponível'});
+};
+
 module.exports = {
     findAll,
     findOrFail,
     store,
     update,
-    remove
+    remove,
+    changeCheckpadStatus,
+    changeAllStatusAvailable,
+    changeAllStatusUnavailable
 };

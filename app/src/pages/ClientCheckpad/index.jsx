@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useToasts } from 'react-toast-notifications'
+
 import api from '../../service/api';
 import Modal from 'react-modal';
 
@@ -7,10 +9,9 @@ Modal.setAppElement('#root');
 function ClientCheckpad() {
 
     const [modalIsOpen, setModaIsOpen] = useState(false);
-    const [clientCheckpads, setClientCheckpads] = useState(false);
-
-    const [availableClients, setAvailableClients] = useState();
-    const [availableCheckpads, setAvailableCheckpads] = useState();
+    const [clientCheckpads, setClientCheckpads] = useState(null);
+    const [availableCheckpads, setAvailableCheckpads] = useState(null);
+    const [availableClients, setAvailableClients] = useState(null);
 
     const clientRef = useRef(null);
     const checkpadRef = useRef(null);
@@ -22,6 +23,9 @@ function ClientCheckpad() {
     function closeModal() {
         setModaIsOpen(false);
     }
+
+    const { addToast } = useToasts();
+
 
     useEffect(() => {
         api.get('client-checkpad').then(res => {
@@ -44,61 +48,126 @@ function ClientCheckpad() {
 
         api.post('client-checkpad', data)
             .then(function (res) {
-                console.log(res);
+                api.get('checkpad').then(res => {
+                    setAvailableCheckpads(res.data);
+                })
+                api.get('client-checkpad').then(res => {
+                    setClientCheckpads(res.data);
+                })
+                addToast(`Comanda inserida com succeso, id: ${res.data.insertId}`, {
+                    appearance: 'success',
+                    autoDismiss: true,
+                })
             })
             .catch(function (error) {
-                console.log(error);
+                addToast(error.message, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                })
             });
-    };
+        closeModal();
+    }
 
-return (
-    <main className="container">
-        <h1>Clientes com comanda aberta</h1>
-        <ul>
-            {clientCheckpads &&
-                clientCheckpads.map((clientCheckpad) =>
-                    <li key={clientCheckpad.id}>
-                        <p>Id do Cliente: {clientCheckpad.client_id}</p>
-                        <p>Item consumido: {clientCheckpad.consumed_items}</p>
-                        <p>Preço: {clientCheckpad.total_price}</p>
-                        <p>Quantidade: {clientCheckpad.quantity}</p>
-                    </li>
-                )}
-        </ul>
-        <div className="modal-container">
-            <button type="button" className="btn btn-primary" onClick={openModal}>Registrar comanda</button>
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Example Modal"
-                overlayClassName="modal-overlay"
-                className="modal-content"
-            >
-                <h2>Abrir comanda</h2>
-                <div className="row">
-                    <select className="form-select" ref={clientRef} aria-label="Default select example">
-                        <option selected>Selecione um cliente</option>
-                        {availableClients &&
-                            availableClients.map((client) =>
-                                <option value={client.id}>{client.name}</option>
-                            )}
-                    </select>
-                    <select className="form-select" ref={checkpadRef} aria-label="Default select example">
-                        <option selected>Selecione uma comanda</option>
-                        {availableCheckpads &&
-                            availableCheckpads.map((checkpad) =>
-                                <option value={checkpad.id}>{checkpad.id + ' - ' + checkpad.status}</option>
-                            )}
-                    </select>
+    function closeClientCheckpad(id) {
+        api.put(`client-checkpad/${id}/close`)
+            .then(function (res) {
+                api.get('checkpad').then(res => {
+                    setAvailableCheckpads(res.data);
+                })
+                api.get('client-checkpad').then(res => {
+                    setClientCheckpads(res.data);
+                })
+                addToast(`Comanda fechada com succeso. Status ${res.status}`, {
+                    appearance: 'success',
+                    autoDismiss: true,
+                })
+            })
+            .catch(function (error) {
+                addToast(error.message, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                })
+            });
+    }
+
+
+
+    return (
+        <main>
+            <div className="container">
+                <div className="row d-flex justify-content-center text-center">
+                    <div className='col-6 fs-3' >Clientes com comanda aberta</div>
+                    <div className='col-3 fs-3'>
+                        <button type="button" className="btn btn-info p-2 m-2" onClick={openModal}>Registrar comanda</button>
+                    </div>
+                    
                 </div>
-                <div className="row d-flex justify-content-between">
-                    <button type="button" className="btn btn-secondary col-3" onClick={closeModal}>Fechar</button>
-                    <button type="button" className="btn btn-success col-3" onClick={OpenCheckpad}>Registrar</button>
+                <div className="row d-flex bg-dark justify-content-center text-center">
+                    <div className="table-responsive">
+                        <table className="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Itens Consumidos</th>
+                                    <th>Preço</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {clientCheckpads &&
+                                    clientCheckpads.map((clientCheckpad) =>
+                                        <tr>
+                                            <th>{clientCheckpad.client_id}</th>
+                                            <td>{clientCheckpad.consumed_items == null ? 'Nada Consumido' : clientCheckpad.consumed_items}</td>
+                                            <td>{clientCheckpad.total_price}</td>
+                                            <td>{clientCheckpad.status}</td>
+                                            <td>
+                                                <button type="button" className="btn btn-danger col-3" onClick={() => closeClientCheckpad(clientCheckpad.id)}>Fechar Comanda
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </Modal>
-        </div>
-    </main>
-);
+                <div className="modal-container">
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={closeModal}
+                        contentLabel="Example Modal"
+                        overlayClassName="modal-overlay"
+                        className="modal-content"
+                    >
+                        <div className="row justify-content-center text-center">
+                            <h5 className='col-6'>Abrir comanda</h5>
+                        </div>
+                        <div className="row">
+                            <select className="form-select m-3" ref={clientRef} aria-label="Default select example">
+                                <option selected>Selecione um cliente</option>
+                                {availableClients &&
+                                    availableClients.map((client) =>
+                                        <option key={client.id} value={client.id}>{client.name}</option>
+                                    )}
+                            </select>
+                            <select className="form-select m-3" ref={checkpadRef} aria-label="Default select example">
+                                <option selected>Selecione uma comanda</option>
+                                {availableCheckpads &&
+                                    availableCheckpads.map((checkpad) =>
+                                        <option key={checkpad.id} value={checkpad.id}>{checkpad.id + ' - ' + checkpad.status}</option>
+                                    )}
+                            </select>
+                        </div>
+                        <div className="row d-flex justify-content-center m-3">
+                            <button type="button" className="btn btn-secondary col-3 m-3" onClick={closeModal}>Fechar</button>
+                            <button type="button" className="btn btn-success col-3 m-3" onClick={OpenCheckpad}>Registrar</button>
+                        </div>
+                    </Modal>
+                </div>
+            </div>
+        </main>
+    );
 }
 
 export default ClientCheckpad;
