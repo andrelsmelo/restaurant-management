@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const findAll = async () => {
 
-    const query = 'SELECT * FROM food_category WHERE deletedAt not NULL';
+    const query = 'SELECT * FROM food_category WHERE deletedAt IS NULL';
 
     const [foodCategorys] = await connection.execute(query);
 
@@ -12,7 +12,7 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const query = 'SELECT * FROM food_category WHERE id = ? and deletedAt not NULL';
+    const query = 'SELECT * FROM food_category WHERE id = ? and deletedAt IS NULL';
 
     const [foodCategory] = await connection.execute(query, [id]);
 
