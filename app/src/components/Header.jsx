@@ -9,9 +9,6 @@ export default function Header() {
                 <a href="/">Início</a>
               </li>
               <li className='option-active'>
-                <a href="/checkpad">Comandas</a>
-              </li>
-              <li className='option-active'>
                 <a href="/client-history">Historico de Clientes</a>
               </li>
               <li className='option-active'>
