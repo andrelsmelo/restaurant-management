@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const findAll = async () => {
 
-    const query = 'SELECT * FROM menu';
+    const query = 'SELECT * FROM menu WHERE deletedAt IS NULL';
 
     const [menu] = await connection.execute(query);
 
@@ -12,7 +12,7 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const query = 'SELECT * FROM menu WHERE id = ?';
+    const query = 'SELECT * FROM menu WHERE id = ? and deletedAt IS NULL';
 
     const [menu] = await connection.execute(query, [id]);
 
@@ -48,9 +48,11 @@ const update = async (id, menu) => {
 
 const remove = async (id) => {
 
-    const query = 'DELETE FROM menu WHERE id = ?';
+    const dateUTC = new Date(Date.now());
 
-    const [deletedMenu] = await connection.execute(query, [id]);
+    const query = 'UPDATE menu SET deletedAt WHERE id = ?';
+
+    const [deletedMenu] = await connection.execute(query, [dateUTC, id]);
 
     return deletedMenu;
 };

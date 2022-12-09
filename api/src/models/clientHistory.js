@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const findAll = async () => {
 
-    const query = 'SELECT * FROM client_history';
+    const query = 'SELECT * FROM client_history WHERE deletedAt IS NULL';
 
     const [clientHistory] = await connection.execute(query);
 
@@ -12,7 +12,7 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const query = 'SELECT * FROM client_history WHERE id = ?';
+    const query = 'SELECT * FROM client_history WHERE id = ? and deletedAt IS NULL';
 
     const [clientHistory] = await connection.execute(query, [id]);
 
@@ -48,9 +48,11 @@ const update = async (id, client) => {
 
 const remove = async (id) => {
 
-    const query = 'DELETE FROM client_history WHERE id = ?';
+    const dateUTC = new Date(Date.now());
 
-    const [deletedClientHistory] = await connection.execute(query, [id]);
+    const query = 'UPDATE client_history SET deletedAt = ? WHERE id = ?';
+
+    const [deletedClientHistory] = await connection.execute(query, [dateUTC, id]);
 
     return deletedClientHistory;
 };

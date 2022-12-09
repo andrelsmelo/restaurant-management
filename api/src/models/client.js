@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const findAll = async () => {
 
-    const query = 'SELECT * FROM clients';
+    const query = 'SELECT * FROM clients WHERE deletedAt IS NULL';
 
     const [clients] = await connection.execute(query);
 
@@ -12,7 +12,7 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const query = 'SELECT * FROM clients WHERE id = ?';
+    const query = 'SELECT * FROM clients WHERE id = ? and deletedAt IS NULL';
 
     const [client] = await connection.execute(query, [id]);
 
@@ -48,9 +48,11 @@ const update = async (id, client) => {
 
 const remove = async (id) => {
 
-    const query = 'DELETE FROM clients WHERE id = ?';
+    const dateUTC = new Date(Date.now());
 
-    const [deletedClient] = await connection.execute(query, [id]);
+    const query = 'UPDATE clients SET deletedAt = ? WHERE id = ?';
+
+    const [deletedClient] = await connection.execute(query, [dateUTC, id]);
 
     return deletedClient;
 };

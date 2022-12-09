@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const findAll = async () => {
 
-    const query = `SELECT * FROM client_checkpad where status != 'Fechada'`;
+    const query = `SELECT * FROM client_checkpad where status != 'Fechada' and deletedAt IS NULL`;
 
     const [clientCheckpad] = await connection.execute(query);
 
@@ -12,7 +12,7 @@ const findAll = async () => {
 
 const findOrFail = async (id) => {
 
-    const query = 'SELECT * FROM client_checkpad WHERE id = ? and status != "Fechada"';
+    const query = 'SELECT * FROM client_checkpad WHERE id = ? and status != "Fechada" and deletedAt IS NULL';
 
     const [clientCheckpad] = await connection.execute(query, [id]);
 
@@ -46,9 +46,11 @@ const update = async (id, client) => {
 
 const remove = async (id) => {
 
-    const query = 'DELETE FROM client_checkpad WHERE id = ?';
+    const dateUTC = new Date(Date.now());
 
-    const [deletedClientCheckpad] = await connection.execute(query, [id]);
+    const query = 'UPDATE client_checkpad  SET deletedAt = ? WHERE id = ?';
+
+    const [deletedClientCheckpad] = await connection.execute(query, [dateUTC, id]);
 
     return deletedClientCheckpad;
 };

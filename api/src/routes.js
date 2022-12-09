@@ -24,7 +24,7 @@ router.post('/checkpad', checkpadMiddleware.validateBody, checkpadController.sto
 router.put('/checkpad/change-all-status-available', checkpadController.changeAllStatusAvailable);
 router.put('/checkpad/change-all-status-unavailable', checkpadController.changeAllStatusUnavailable);
 router.put('/checkpad/:id', checkpadMiddleware.validateBody, checkpadController.update);
-router.delete('/checkpad/:id', checkpadController.remove);
+router.put('/checkpad/:id/delete', checkpadController.remove);
 router.put('/checkpad/:id/change-status', checkpadController.changeCheckpadStatus);
 
 
@@ -34,31 +34,31 @@ router.post('/client-checkpad', clientCheckpadController.store);
 router.put('/client-checkpad/:id/new-item', clientCheckpadController.attTotalPrice);
 router.put('/client-checkpad/:id/close', clientCheckpadController.closeCheckpad);
 router.put('/client-checkpad/:id', clientCheckpadController.update);
-router.delete('/client-checkpad/:id', clientCheckpadController.remove);
+router.put('/client-checkpad/:id/delete', clientCheckpadController.remove);
 
 router.get('/client', clientController.findAll);
 router.get('/client/:id', clientController.findOrFail);
 router.post('/client', clientMiddleware.validateBody, clientController.store);
 router.put('/client/:id', clientMiddleware.validateBody, clientController.update);
-router.delete('/client/:id', clientController.remove);
+router.put('/client/:id/delete', clientController.remove);
 
 router.get('/client-history', clientHistoryController.findAll);
 router.get('/client-history/:id', clientHistoryController.findOrFail);
 router.post('/client-history', clientHistoryController.store);
 router.put('/client-history/:id', clientHistoryController.update);
-router.delete('/client-history/:id', clientHistoryController.remove);
+router.put('/client-history/:id/delete', clientHistoryController.remove);
 
 router.get('/food-category', foodCategoryController.findAll);
 router.get('/food-category/:id', foodCategoryController.findOrFail);
 router.post('/food-category', foodCategoryMiddleware.validateBody, foodCategoryController.store);
 router.put('/food-category/:id', foodCategoryMiddleware.validateBody, foodCategoryController.update);
-router.delete('/food-category/:id', foodCategoryController.remove);
+router.put('/food-category/:id/delete', foodCategoryController.remove);
 
 router.get('/menu', menuController.findAll);
 router.get('/menu/:id', menuController.findOrFail);
 router.post('/menu', menuController.store);
 router.put('/menu/:id', menuController.update);
-router.delete('/menu/:id', menuController.remove);
+router.put('/menu/:id/delete', menuController.remove);
 router.get('/menu-filtered/:id', menuController.filter);
 
 module.exports = router;
