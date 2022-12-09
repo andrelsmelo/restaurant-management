@@ -8,7 +8,6 @@ function Checkpad() {
     useEffect(() => {
         api.get('checkpad').then(res => {
             setCheckpads(res.data);
-            console.log(res.data);
         })
     }, []);
 

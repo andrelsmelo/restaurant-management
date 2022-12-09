@@ -63,10 +63,6 @@ const remove = async (req, res) => {
 
 const filter = async(req, res) => {
     const { id } = req.params;
-
-    console.log('bati na api');
-
-    console.log(id);
     
     const menu = await menuModel.filter(id);
 

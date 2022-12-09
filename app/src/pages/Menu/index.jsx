@@ -18,11 +18,6 @@ function Menu() {
         })
     }, [])
 
-/*     useEffect(() => {
-        console.log('bati aqui')
-
-    }, [filterOption]) */
-
     function filterOptions(id) {
         api.get(`/menu-filtered/${id}`)
           .then(function (res) {
