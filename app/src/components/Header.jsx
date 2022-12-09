@@ -12,7 +12,7 @@ export default function Header() {
                 <a href="/client-history">Historico de Clientes</a>
               </li>
               <li className='option-active'>
-                <a href="/client">Novos Clientes</a>
+                <a href="/client">Clientes</a>
               </li>
               <li className='option-active'>
                 <a href="/menu">Menu</a>
