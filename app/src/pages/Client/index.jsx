@@ -73,6 +73,7 @@ function Clients() {
             });
         closeModal();
     }
+
     return (
         <main className="container">
               <div className="row d-flex justify-content-center text-center my-5">
@@ -118,17 +119,17 @@ function Clients() {
                         <h5 className='col-6'>Abrir comanda</h5>
                     </div>
                     <div className="row">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Nome</span>
-                            <input type="text" class="form-control" ref={nameRef} placeholder="Nome" aria-label="Username" aria-describedby="basic-addon1" />
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">Nome</span>
+                            <input type="text" className="form-control" ref={nameRef} placeholder="Nome" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">CPF</span>
-                            <input type="text" class="form-control" ref={cpfRef} placeholder="CPF" aria-label="Username" aria-describedby="basic-addon1" />
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">CPF</span>
+                            <input type="text" className="form-control" ref={cpfRef} placeholder="CPF" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Telefone</span>
-                            <input type="text" class="form-control" ref={phoneRef} placeholder="Telefone" aria-label="Username" aria-describedby="basic-addon1" />
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">Telefone</span>
+                            <input type="text" className="form-control" ref={phoneRef} placeholder="Telefone" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
                     </div>
                     <div className="row d-flex justify-content-center m-3">

@@ -50,7 +50,7 @@ const remove = async (id) => {
 
     const dateUTC = new Date(Date.now());
 
-    const query = 'UPDATE menu SET deletedAt WHERE id = ?';
+    const query = 'UPDATE menu SET deletedAt = ? WHERE id = ?';
 
     const [deletedMenu] = await connection.execute(query, [dateUTC, id]);
 
