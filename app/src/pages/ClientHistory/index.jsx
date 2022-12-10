@@ -14,16 +14,35 @@ function ClientHistory() {
 
     return (
         <main className="container">
-            <h1>Historico de Clientes</h1>
-            <ul>
-                {clientHistory?.map((clientHistory) =>
-                    <li key={clientHistory.id}>
-                        <p>Id do Cliente: {clientHistory.client_id}</p>
-                        <p>Item consumido: {clientHistory.consumed_items}</p>
-                        <p>Preço: {clientHistory.total_price}</p>
-                        <p>Quantidade: {clientHistory.quantity}</p>
-                    </li>
+                <div className="row d-flex justify-content-center text-center my-5">
+                    <div className='col-6 fs-2' >Historico de Clientes</div>
+                </div>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Id do cliente</th>
+                    <th scope="col">Item consumido</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {clientHistory?.map((clientHistory) =>
+                    <tr>
+                    <th scope="row">{clientHistory.id}</th>
+                    <td>{clientHistory.client_id}</td>
+                    <td>{clientHistory.consumed_items}</td>
+                    <td>{clientHistory.total_price}</td>
+                    <td>{clientHistory.quantity}</td>
+                    <td>{clientHistory.date}</td>
+                    </tr>
                 )}
+                </tbody>
+            </table>
+            <ul>
+
             </ul>
         </main>
     );

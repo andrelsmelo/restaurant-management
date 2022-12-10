@@ -20,6 +20,9 @@ export default function Header() {
               <li className='option-active'>
                 <a href="/client-checkpad">Clientes com comanda aberta</a>
               </li>
+              <li className='option-active'>
+                <a href="/insert-item">Inserção de itens</a>
+              </li>
             </ul>
           </div>
         </div>

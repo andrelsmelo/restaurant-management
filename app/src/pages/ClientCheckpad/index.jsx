@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useToasts } from 'react-toast-notifications'
-
 import api from '../../service/api';
 import Modal from 'react-modal';
-
-Modal.setAppElement('#root');
 
 function ClientCheckpad() {
 
@@ -93,8 +90,8 @@ function ClientCheckpad() {
         <main>
             <div className="container">
                 <div className="row d-flex justify-content-center text-center my-5">
-                    <div className='col-6 fs-2' >Clientes com comandas abertas</div>
-                    <div className='col-3'>
+                    <div className='col-6 fs-3' >Clientes com comandas abertas</div>
+                    <div className='col-3 fs-3'>
                         <button type="button" className="btn btn-secondary p-2 m-2" onClick={openModal}>Registrar nova comanda</button>
                     </div>
                 </div>
@@ -130,9 +127,7 @@ function ClientCheckpad() {
                                             <td>{clientCheckpad.total_price}</td>
                                             <td>{clientCheckpad.status}</td>
                                             <td>
-                                                <button type="button" className="btn btn-danger mx-2" onClick={() => closeClientCheckpad(clientCheckpad.id)}>Fechar
-                                                </button>
-                                                <button type="button" className="btn btn-warning mx-2" onClick={() => closeClientCheckpad(clientCheckpad.id)}>Inserir item
+                                                <button type="button" className="btn btn-danger" onClick={() => closeClientCheckpad(clientCheckpad.id)}>Fechar Comanda
                                                 </button>
                                             </td>
                                         </tr>
